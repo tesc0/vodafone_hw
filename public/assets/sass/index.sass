@@ -1,0 +1,258 @@
+$voda_red: rgb(230, 0, 0)
+$voda_grey: #666
+$voda_black: #333
+
+\:root
+  font-size: 16px
+
+.header
+  margin-top: 40px
+  img
+    width: 40%
+  #filter
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+
+h2
+  display: block
+  font-weight: bold
+  font-size: 1.6rem
+  margin: 20px auto 0 auto
+  width: 100%
+
+.underline
+  background: $voda_red
+  display: inline-block
+  width: 40px
+  height: 5px
+  margin: 0 auto 20px auto
+
+.title
+  position: relative
+
+.delete-contact
+  color: $voda_red
+  position: absolute
+  cursor: pointer
+  top: 20px
+  right: 0
+
+.delete-modal
+  display: none
+  position: fixed
+  width: 100%
+  height: 100%
+  background: rgba(255, 255, 255, 0.6)
+  z-index: 100
+  top: 0
+  left: 0
+  .top-bar
+    display: block
+    width: 100%
+    background: $voda_red
+    color: white
+    padding: 5px
+  .delete-dialog
+    border: 1px solid $voda_grey
+    background: white
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+  .delete-buttons
+    display: flex
+    justify-content: center
+    margin-bottom: 20px
+  p
+    font-size: 1.2rem
+    width: 300px
+    margin: auto
+    padding: 20px
+    text-align: center
+  button
+    margin: 10px 20px
+    padding: 10px 30px
+    &.delete-confirm
+      background: $voda_red
+      color: white
+    &.delete-cancel
+      border: 1px solid $voda_black
+
+
+
+.add-new
+  background: $voda_red
+  color: white
+  width: 50px
+  height: 50px
+  border-radius: 50%
+  position: fixed
+  bottom: 5%
+  right: 5%
+  cursor: pointer
+  z-index: 1000
+  span
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+.contact-container
+  .contact
+    margin: 20px
+    &:hover
+      box-shadow: 0 0 10px 0 $voda_grey
+    .contact-header
+      background: $voda_black
+      color: white
+      padding: 15px
+      font-size: 0.8rem
+    .contact-info
+      color: black
+      line-height: 150%
+      padding: 20px
+      font-size: 0.8rem
+
+button.submit
+  background: $voda_red
+  color: white
+  border: 0
+  padding: 10px 40px
+  font-size: 1.5rem
+  &:hover
+    background: rgb(170, 0, 0)
+
+.alert
+  display: none
+
+.letters
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  padding: 10px 50px
+  span
+    font-size: 1.2rem
+    font-weight: bold
+    cursor: pointer
+    display: inline-block
+    margin: 5px
+    &.selected
+      color: $voda_red
+
+
+.slide-fade-enter-active
+  transition: all .7s ease
+
+.slide-fade-leave-active
+  transition: all .7s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+
+.slide-fade-enter, .slide-fade-leave-to
+    //.slide-fade-leave-active for <2.1.8
+  transform: translateX(10px)
+  opacity: 0
+
+$offset: 187
+$duration: 1.4s
+
+.spinner-overlay
+  position: fixed
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  display: none
+  z-index: 100
+  background: rgba(255, 255, 255, 0.6)
+  .spinner
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    animation: rotator $duration linear infinite
+    .path
+      stroke-dasharray: $offset
+      stroke-dashoffset: 0
+      transform-origin: center
+      stroke: $voda_red
+      animation: dash $duration ease-in-out infinite
+
+@keyframes rotator
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(270deg)
+
+
+@keyframes dash
+  0%
+    stroke-dashoffset: $offset
+
+  50%
+    stroke-dashoffset: $offset / 4
+    transform: rotate(135deg)
+
+  100%
+    stroke-dashoffset: $offset
+    transform: rotate(450deg)
+
+
+/* MATERIAL ICONS */
+
+.material-icons.md-18
+  font-size: 18px
+.material-icons.md-24
+  font-size: 24px
+.material-icons.md-36
+  font-size: 36px
+.material-icons.md-48
+  font-size: 48px
+
+/* RESPONSIVITY */
+@media screen and (min-width: 600px)
+  .letters
+    span
+      font-size: 1.6rem
+  .contact-container
+    .contact-container-anim
+      width: 100%
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-evenly
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+    .contact
+      width: 40%
+
+@media screen and (min-width: 800px)
+  .letters
+    span
+      font-size: 2rem
+  .header
+    img
+      width: 60%
+  .contact-container
+    .contact-container-anim
+      width: 100%
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-evenly
+    .contact
+      width: 30%
+      margin: 10px
+
+@media screen and (min-width: 1300px)
+  .header
+    img
+      width: 70%
+  .contact-container
+    .contact-container-anim
+      width: 100%
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-evenly
+    .contact
+      width: 20%
+      margin: 5px

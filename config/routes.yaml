@@ -1,0 +1,27 @@
+index:
+  path: /
+  controller: App\Controller\Site::index
+
+add:
+  path: /add
+  controller: App\Controller\Site::create
+
+user:
+  path: /user/{id}
+  controller: App\Controller\Site::change
+  requirements:
+    id: '\d+'
+
+delete:
+  path: /delete/{id}
+  controller: App\Controller\Site::delete
+  requirements:
+    id: '\d+'
+
+search:
+  path: /search
+  controller: App\Controller\Site::search
+
+letter_filter:
+  path: /filterByLetter
+  controller: App\Controller\Site::filter

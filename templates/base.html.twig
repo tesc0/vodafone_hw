@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Vodafone</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/index.css?ver={{ 'now'|date('U') }}">
+        <link rel="stylesheet" href="/assets/css/animate.css">
+        <link rel="icon" href="/assets/img/vodafone-icon.png">
+
+        <script>
+            var base_url = "{{ url("index") }}";
+        </script>
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+
+        <div class="add-new">
+            <span class="material-icons md-36">add</span>
+        </div>
+
+        <div class="spinner-overlay">
+            <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+            </svg>
+        </div>
+
+        <div class="delete-modal">
+            <div class="delete-dialog">
+                <span class="top-bar">Megerősítés</span>
+            <p>Are you sure you want to delete the contact?
+            </p>
+                <div class="delete-buttons">
+                    <button class="delete-confirm btn">Yes</button>
+                    <button class="delete-cancel btn">No</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    {% block scripts %}
+    {% endblock %}
+
+        <script src="/assets/js/index.js?ver={{ 'now'|date('U') }}"></script>
+    </body>
+</html>

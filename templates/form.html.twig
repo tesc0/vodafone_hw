@@ -1,0 +1,67 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <section class="container">
+        <div class="row header">
+            <div class="col-md-6 col-sm-12 text-center text-md-left">
+                <a href="{{ url("index") }}"><img src="/assets/img/vodafone-logo.png"></a>
+            </div>
+            <div class="d-none d-md-block col-md-6">
+                <input class="form-control" placeholder="" id="filter" name="filter">
+            </div>
+        </div>
+        <div class="row title">
+        {% if user.id is not empty %}
+            <h2 class="text-center">Edit contact</h2>
+
+
+            <span class="material-icons md-36 delete-contact" title="Delete contact">delete_forever</span>
+
+
+        {% else %}
+            <h2 class="text-center">Add contact</h2>
+        {% endif %}
+
+            <div class="underline"></div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <form class="form">
+                    <div class="fieldset">
+                        <div class="form-group">
+                            <label>First name</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" value="{{ (user.firstname is not empty) ? user.firstname : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Last name</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" value="{{ (user.lastname is not empty) ? user.lastname : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="text" class="form-control" id="email" name="email" value="{{ (user.email is not empty) ? user.email : '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ (user.phone is not empty) ? user.phone : '' }}">
+                        </div>
+                        <div class="form-group text-center">
+                            {% if user.id is not empty %}
+                                <input type="hidden" value="{{ user.id }}" id="user_id">
+                            {% endif %}
+                            <button class="button submit" type="button" id="form_submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="alert" role="alert">
+            This is a primary alert—check it out!
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,230 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <section class="container">
+        <div class="row header">
+            <div class="col-md-6 col-sm-12 text-center text-md-left">
+                <a href="{{ url("index") }}"><img src="/assets/img/vodafone-logo.png"></a>
+            </div>
+            <div class="d-none d-md-block col-md-6">
+                <input class="form-control" placeholder="Search the results" id="search" name="search">
+            </div>
+        </div>
+        <div class="row">
+            <h2 class="text-center">Contacts</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 letters text-center">
+                {% if letters is not empty %}
+                    {% for letter in letters %}
+                        <span>{{ letter }}</span>
+                    {% endfor %}
+                    <span class="material-icons md-36 clear-letters">clear</span>
+                {% endif %}
+            </div>
+            <div class="col-12 contact-container" id="contact-container">
+<!--
+                {% for user in users %}
+
+                    <div class="contact" data-id="{{ user.id }}">
+                        <div id="contact-list-app"></div>
+
+                        <div class="header text-center">{{ user.firstname }} {{ user.lastname }}</div>
+                        <div class="info text-center">
+                            {{ user.email }}
+                            <br>
+                            {{ user.phone }}
+                        </div>
+                    </div>
+
+                {% endfor %}
+                -->
+
+                <!-- VUE JS -->
+                <transition-group name="slide-fade" tag="div" class="contact-container-anim">
+                    <div class="contact" :data-id="user.id" v-for="user in users" v-bind:key="user">
+
+                            <div class="contact-header text-center">${ user.firstname } ${ user.lastname }</div>
+                            <div class="contact-info text-center">
+                                ${ user.email }
+                                <br>
+                                ${ user.phone }
+                            </div>
+
+
+                    </div>
+                </transition-group>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+        /**
+         * Data for vue
+         * */
+        var users = [];
+        {% for user in users %}
+            var temp = {};
+            temp.id = "{{ user.id }}";
+            temp.firstname = "{{ user.firstname|raw }}";
+            temp.lastname = "{{ user.lastname|raw }}";
+            temp.email = "{{ user.email }}";
+            temp.phone = "{{ user.phone }}";
+            users.push(temp);
+        {% endfor %}
+//console.log(users);
+        /**
+         * Vue initialization
+         * */
+        app = new Vue({
+            delimiters: ['${', '}'],
+            el: '#contact-container',
+            data: {
+                users: users
+            },
+        });
+
+
+        /**
+         * search event
+         */
+
+        var search = document.querySelector("#search");
+        var timeoutId = 0;
+        search.addEventListener("keyup", function() {
+
+            var text = this.value;
+
+
+
+            clearTimeout(timeoutId); // doesn't matter if it's 0
+            timeoutId = setTimeout(function() {
+
+                var data = new FormData();
+                data.search = text;
+
+                document.querySelector(".spinner-overlay").style.display = "block";
+
+                fetch("/search", {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then( (response) => { return response.json() } ).then( json => {
+
+                    if(json.success == 0) {
+
+                    } else {
+
+                        setTimeout(function() {
+                            document.querySelector(".spinner-overlay").style.display = "none";
+                            console.log(json.result);
+                            console.log(app.users);
+                            app.users = json.result;
+                        }, 700);
+
+
+                        //console.log(app.users);
+
+                        //updateUsers(json.result);
+                    }
+                });
+
+            }, 500);
+
+        });
+
+
+        /**
+         * letter-click event // filter
+         */
+        var letters = document.querySelectorAll(".letters span");
+        for(var k = 0; k < letters.length; k++) {
+
+            letters[k].addEventListener("click", function() {
+
+                for(var j = 0; j < letters.length; j++) {
+                    letters[j].classList.remove("selected");
+                }
+
+                var letter_filter = this.innerText.trim();
+
+                var data = new FormData();
+                data.letter = letter_filter;
+                this.classList.add("selected");
+
+                fetch("/filterByLetter", {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then( (response) => { return response.json() } ).then( json => {
+
+                    if(json.success == 0) {
+
+                    } else {
+                        console.log(json.result);
+                        console.log(app.users);
+                        app.users = json.result;
+                        //console.log(app.users);
+
+                        //updateUsers(json.result);
+                    }
+                });
+
+            });
+        }
+
+        var clear_letters = document.querySelector(".clear-letters");
+        clear_letters.addEventListener("click", function() {
+
+            var span_letters = document.querySelectorAll(".letters span");
+            for(var k = 0; k < span_letters.length; k++) {
+                span_letters[k].classList.remove("selected");
+            }
+
+            var data = new FormData();
+            data.search = "";
+
+            fetch("/search", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then( (response) => { return response.json() } ).then( json => {
+
+                if(json.success == 0) {
+
+                } else {
+
+                    setTimeout(function() {
+                        document.querySelector(".spinner-overlay").style.display = "none";
+                        console.log(json.result);
+                        console.log(app.users);
+                        app.users = json.result;
+                    }, 700);
+
+
+                    //console.log(app.users);
+
+                    //updateUsers(json.result);
+                }
+            });
+
+
+        });
+
+    </script>
+{% endblock %}
